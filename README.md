@@ -17,5 +17,8 @@ Oldpeak = ST;
 Slope of the peak exercise ST segment; 
 Number of major vessels. 
 
-
+In the Project folder you will find:
+- Application web folder: code for the application web with the results of the analysis and the machine learning model.
+- Cardiovascular_Disease_Dataset: Folder with the datasets in format csv 
+- Memory files: Analysis and Machine Learning.
 
