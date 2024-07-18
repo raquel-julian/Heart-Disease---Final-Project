@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tus Pestañas - Página Personal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: #333;
+            padding: 20px;
+            box-sizing: border-box;
+            height: 400vh;
+            overflow-y: auto;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            display: flex; /* Utilizar flexbox para distribuir las columnas */
+            flex-wrap: wrap; /* Permitir que los elementos se envuelvan en múltiples líneas si es necesario */
+        }
+
+        .tab {
+            margin-bottom: 10px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab:hover {
+            background-color: #555;
+        }
+
+        .tab.active {
+            background-color: #666;
+        }
+
+        .section {
+            display: none;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #444;
+            flex: 1; /* Hacer que las secciones ocupen todo el espacio disponible */
+            min-width: 300px; /* Establecer un ancho mínimo para evitar el colapso en dispositivos pequeños */
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .section p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #ccc; /* Color de comentario */
+            position: relative; /* Posición relativa para contener la línea */
+            margin-bottom: 10px; /* Espacio después del texto */
+        }
+
+        .section .form-group {
+            margin-top: 20px; /* Espacio entre el texto y el formulario */
+            display: flex; /* Utilizar flexbox para alinear los formularios */
+            justify-content: space-between; /* Distribuir el espacio uniformemente entre los elementos */
+            align-items: center; /* Centrar verticalmente los elementos */
+        }
+
+        .section .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px; /* Tamaño de fuente más pequeño */
+            flex: 1; /* Ocupar todo el espacio disponible */
+            max-width: calc(50% - 5px); /* Establecer el ancho máximo para simetría */
+        }
+
+        .section .form-group select {
+            width: 100%; /* Ancho completo del contenedor */
+            padding: 5px; /* Menos espacio de relleno */
+            font-size: 14px; /* Tamaño de fuente más pequeño */
+            flex: 2; /* Ocupar el doble del espacio del label */
+        }
+
+        .form-group input[type="number"] {
+            width: 100%; /* Ancho completo del contenedor */
+            padding: 5px; /* Espacio de relleno */
+            font-size: 14px; /* Tamaño de fuente */
+            flex: 2; /* Ocupar el doble del espacio del label */
+        }
+
+        .section p::after {
+            content: '';
+            display: block;
+            position: absolute;
+            top: calc(100% + 5px); /* Coloca la línea justo después del texto */
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: #ccc; /* Color de la línea gris clarito */
+            z-index: -1; /* Colocar por detrás del texto */
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <div class="tab active" onclick="changeTab(0)">Heart Health</div>
+        <div class="tab" onclick="changeTab(1)">Did you know...?</div>
+        <div class="tab" onclick="changeTab(2)">Definitions</div>
+    </div>
+
+    <div class="main-content">
+        <div class="section active" id="heart-disease-section">
+            <h2>Heart Health</h2>
+            <p>
+                Here you can select or add the values in each category and get the results.<br>
+                <br>
+            </p>
+            <br>
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <select id="age">
+                    <option value="">Select an option</option>
+                    <option value="20-29">20-29</option>
+                    <option value="30-39">30-39</option>
+                    <option value="40-49">40-49</option>
+                    <option value="50-59">50-59</option>
+                    <option value="60-69">60-69</option>
+                    <option value="70-80">70-80</option>
+                </select>
+                <!-- Añadido espacio -->
+                <div style="width: 40px;"></div>
+                <label for="gender">Gender:</label>
+                <select id="gender">
+                    <option value="">Select an option</option>
+                    <option value="0">Female</option>
+                    <option value="1">Male</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="chestpain">Chest pain type:</label>
+                <select id="chestpain">
+                    <option value="">Select an option</option>
+                    <option value="0">Typical angina</option>
+                    <option value="1">Atypical angina</option>
+                    <option value="2">Non-angina pain</option>
+                    <option value="3">Asymptomatic</option>
+                </select>
+                <!-- Añadido espacio -->
+                <div style="width: 40px;"></div>
+                <label for="restingBP">Resting blood pressure (between 94-200 mm Hg):</label>
+                <input type="number" id="restingBP" name="restingBP" placeholder="Enter a number">
+            </div>
+            <div class="error" id="restingBP-error"></div>
+            <div class="form-group">
+                <label for="serumcholestrol">Serum cholesterol (between 126-564 mg/dl):</label>
+                <input type="number" id="serumcholestrol" name="serumcholestrol" placeholder="Enter a number">
+                <!-- Añadido espacio -->
+                <div style="width: 40px;"></div>
+                <label for="fastingbloodsugar">Fasting blood sugar:</label>
+                <select id="fastingbloodsugar">
+                    <option value="">Select an option</option>
+                    <option value="0">Less than 120 mg/dl</option>
+                    <option value="1">More than 120 mg/dl</option>
+                </select>
+            </div>
+            <div class="error" id="serumcholestrol-error"></div>
+            <div class="form-group">
+                <label for="restingelectro">Resting electrocardiogram results:</label>
+                <select id="restingelectro">
+                    <option value="">Select an option</option>
+                    <option value="0">Normal</option>
+                    <option value="1">ST-T wave abnormality (T wave inversions and/or ST elevation or depression of > 0.05 mV)</option>
+                    <option value="2">Probable or definite left ventricular hypertrophy by Estes' criteria</option>
+                </select>
+                <!-- Añadido espacio -->
+                <div style="width: 40px;"></div>
+                <label for="maxheartrate">Maximum heart rate achieved (between 71-202):</label>
+                <input type="number" id="maxheartrate" name="maxheartrate" placeholder="Enter a number">
+            </div>
+            <div class="error" id="maxheartrate-error"></div>
+            <div class="form-group">
+                <label for="exerciseangia">Exercise induced angina:</label>
+                <select id="exerciseangia">
+                    <option value="">Select an option</option>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+                <!-- Añadido espacio -->
+                <div style="width: 40px;"></div>
+                <label for="oldpeak">Oldpeak = ST (between 0-6.2):</label>
+                <input type="number" id="oldpeak" name="oldpeak" placeholder="Enter a number">
+            </div>
+            <div class="error" id="oldpeak-error"></div>
+            <div class="form-group">
+                <label for="slope">Slope of the peak exercise ST segment:</label>
+                <select id="slope">
+                    <option value="">Select an option</option>
+                    <option value="1">Upsloping</option>
+                    <option value="2">Flat</option>
+                    <option value="3">Downsloping</option>
+                </select>
+                <!-- Añadido espacio -->
+                <div style="width: 40px;"></div>
+                <label for="noofmajorvessels">Number of major vessels:</label>
+                <select id="noofmajorvessels">
+                    <option value="">Select an option</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+            <!-- Contenedor para mensajes de error generales -->
+
+            <div class="form-group">
+                <button onclick="submitForm()">Submit</button>
+                <br>
+            </div>
+            <h2>Your results are:</h2>
+            <div id="results" style ="display: none;"></div>
+        </div>
+
+        <div class="section" id="Did you know...?-section">
+            <h2>Did you know...?</h2>
+            <p>
+                Sharing interesting insights and discoveries about hearth diseases.<br>
+                <br>
+            </p>
+            <p>
+                <br>
+                Did you know these probabilities?<br>
+                <br>
+                - Probability that a man has a heart disease: 58,43% and a woman: 56,59%<br>
+                - Probability that a person with high serum cholesterol (>200) has heart disease: 58,64%<br>
+                - Probability that a person with chest pain type 2 or 3 has very high serum cholesterol: 89,57%<br>
+                <br>
+                Did you know which variables determine the probability of having heart disease the most?<br>
+                <br>
+                <img src="Pictures/Feature Importance_ML.jpg" alt="st"><br>
+                The three features with most correlation with the target are maxheartrate, serumcholesterol and restingBP.<br>
+                At the same time, they are highly correlated with other ones:<br>
+                - Max heart rate:<br>
+                Max heart rate is highly correlated with chest pain, slope and number of major vessels.
+                <br>
+                - Serum cholesterol: <br>
+                Serum cholesterol values are highly correlated gender, chest pain, resting blood pressure, fasting blood sugar, resting electrocardiogram, slope and number of major vessels.
+                <br>
+                - Resting blood pressure:<br>
+                Resting blood pressure highly correlated with chestpain, serum cholesterol, fasting blood sugar, resting electrocardiogram results, slope of the ST segment, and the number of major vessels affected.<br>
+                <br>
+                <img src="Pictures/SHAP.jpg" alt="st"><br>
+                See in the SHAP plot that the variable with more weight is slope. <br>
+                The slope is correlated with slope, chestpain, restingBP, serumcholestrol, fastingbloodsugar, restingrelectro, maxheartrate, oldpeak, noofmajorvessels.<br>
+                <br>
+                Plottering the relations between numerical features against the target:<br>
+                <img src="Pictures/Numerical_feature.jpg" alt="st"><br>
+                <br>
+                Plottering the relations between categorical features against the target:<br>
+                <img src="Pictures/Categorical_importance.jpg" alt="st"><br>
+                <br>
+            </p>
+        </div>
+
+        <div class="section" id="definitions-section">
+            <h2>Definitions</h2>
+            <p>
+                This section helps you to understand the significance of each clinical feature.<br>
+                <br>
+            </p>
+            <p>
+                <br>
+                <strong>Age</strong><br>
+                In clinical settings, age is crucial for assessing health risks, diagnosing conditions, and determining appropriate treatments. It plays a significant role in understanding disease prevalence, response to therapies, and overall health outcomes.<br>
+                <br>
+                <strong>Gender</strong><br>   
+                It can influence health outcomes, access to healthcare services, and the experience of health and illness.<br>
+                <br>
+                <strong>Chest pain type</strong><br>  
+                Chest pain type refers to the categorization of symptoms related to chest discomfort or pain that patients report.<br>
+                There are 4 possible types:<br>
+                - Typical Angina: The pain is often described as squeezing, pressure, heaviness, or tightness in the chest. It may radiate to the left arm, shoulder, jaw, or back. Patients may also experience shortness of breath, sweating, or nausea.<br>
+                - Atypical Angina: The pain may be sharp, stabbing, burning, or dull. <br>
+                - Non-Anginal Pain: It may originate from other structures within the chest, such as muscles, bones, nerves, or the gastrointestinal tract.<br>
+                - Asymptomatic: There are no symptoms of chest pain or discomfort reported by the patient.<br>
+                <br>
+                <strong>Resting blood pressure</strong><br>  
+                Measurement of the force of blood when the body is at rest and the heart is not actively pumping blood (i.e., during relaxation).<br>
+                <br>
+                <strong>Serum cholesterol</strong><br>  
+                Level of cholesterol present in the blood serum (LDL + HDL). Cholesterol is a waxy substance that is essential for building cell membranes, producing certain hormones, and synthesizing vitamin D. However, high levels of cholesterol in the blood can increase the risk of heart disease and stroke.<br>
+                <img src="Pictures/serumcholesterol.jpg" alt="st"><br>
+                <br>
+                <strong>Fasting blood sugar</strong><br>  
+                Level of glucose (sugar) in the bloodstream after a period of fasting, typically for at least 8 hours. It provides insights into the body's ability to regulate glucose during periods of fasting. Elevated levels may indicate impaired glucose tolerance or diabetes mellitus, while low levels can sometimes indicate conditions such as hypoglycemia.<br>
+                <br>
+                <strong>Resting electrocardiogram results</strong><br>  
+                Refer to the outcomes of an ECG test performed while the patient is at rest. An ECG is a non-invasive test that measures the electrical activity of the heart to identify various cardiac conditions.<br>
+                Three possible values:<br>
+                - Normal: Within the expected range and no significant abnormalities. Normal heart rhythm and electrical conduction.<br>
+                - ST-T Wave Abnormality: This value indicates abnormalities in the ST segment or T wave on the ECG.<br>
+                - Probable or Definite Left Ventricular Hypertrophy by Estes' Criteria: This value indicates the presence of left ventricular hypertrophy (LVH). <br>
+                <img src="Pictures/ST.jpg" alt="st"><br>
+                <br>
+                <strong>Maximum heart rate achieved</strong><br>  
+                Highest number of beats per minute (bpm) that a person's heart reaches during a stress test. This feature helps healthcare providers assess how well the heart is functioning, detect abnormal heart rhythms, and diagnose conditions like coronary artery disease.<br>
+                <br>
+                <strong>Exercise induced angina</strong><br>  
+                Chest pain or discomfort that occurs during physical exertion or stress and typically subsides with rest. It is a symptom of underlying heart conditions.<br>
+                <br>
+                <strong>Oldpeak = ST</strong><br>  
+                Depression or elevation in the ST segment of an electrocardiogram (ECG) reading during peak exercise compared to the baseline level when at rest.<br>
+                <br>
+                <strong>Slope of the peak excercise ST</strong><br>  
+                Incline of the ST segment during maximal exercise in a cardiac stress test (exercise ECG).<br>
+                - Upsloping: Indicates a gradual upward change of the ST segment during exercise. This is considered a normal response.<br>
+                - Flat: The ST segment remains horizontal during exercise. This interpretation can vary depending on clinical context and other factors.<br>
+                - Downsloping: Involves a downward descent of the ST segment during exercise. This response may indicate an underlying issue such as myocardial ischemia (inadequate blood flow to the heart).<br>
+                <img src="Pictures/slope.jpg" alt="slope"><br>
+                <br>
+                <strong>Number of major vessels</strong><br>  
+                Number of narrowings or blockages in each vessel, as well as the overall extent of coronary involvement, which is crucial for determining appropriate management and treatment, ranging from lifestyle changes and medications to invasive procedures such as angioplasty or coronary bypass surgery.<br>
+                <img src="Pictures/noofmajorvessels.jpg" alt="Number of major vessels"><br>
+                <br>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function changeTab(index) {
+            // Ocultar todas las secciones y desactivar todas las pestañas
+            var sections = document.querySelectorAll('.section');
+            sections.forEach(function (section) {
+                section.classList.remove('active');
+            });
+
+            var tabs = document.querySelectorAll('.tab');
+            tabs.forEach(function (tab) {
+                tab.classList.remove('active');
+            });
+
+            // Mostrar la sección seleccionada y activar la pestaña correspondiente
+            sections[index].classList.add('active');
+            tabs[index].classList.add('active');
+        }
+
+        function submitForm() {
+            // Recoger los valores de los campos del formulario
+            var chestpain = document.getElementById('chestpain').value;
+            var restingBP = document.getElementById('restingBP').value;
+            var serumcholestrol = document.getElementById('serumcholestrol').value;
+            var fastingbloodsugar = document.getElementById('fastingbloodsugar').value;
+            var restingelectro = document.getElementById('restingelectro').value;
+            var maxheartrate = document.getElementById('maxheartrate').value;
+            var slope = document.getElementById('slope').value;
+            var noofmajorvessels = document.getElementById('noofmajorvessels').value;
+
+            // Crear un objeto con los datos del formulario
+            var formData = {
+                chestpain: chestpain,
+                restingBP: restingBP,
+                serumcholestrol: serumcholestrol,
+                fastingbloodsugar: fastingbloodsugar,
+                restingelectro: restingelectro,
+                maxheartrate: maxheartrate,
+                slope: slope,
+                noofmajorvessels: noofmajorvessels
+            };
+
+            // Hacer una solicitud POST a nuestro servidor Flask
+            fetch('http://127.0.0.1:5000/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Mostrar el resultado en el área de resultados
+                var resultsDiv = document.getElementById('results');
+                resultsDiv.style.display = 'block';
+                resultsDiv.innerHTML = 'Predicted Result: ' + data.prediction;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function validateInput(inputId, errorId, min, max) {
+            const inputElement = document.getElementById(inputId);
+            const errorElement = document.getElementById(errorId);
+            const value = parseFloat(inputElement.value);
+
+            if (value < min || value > max) {
+                errorElement.textContent = `Value must be between ${min} and ${max}`;
+            } else {
+                errorElement.textContent = '';
+            }
+        }
+
+        document.getElementById('serumcholestrol').addEventListener('input', function() {
+            validateInput('serumcholestrol', 'serumcholestrol-error', 126, 564);
+        });
+
+        document.getElementById('restingBP').addEventListener('input', function() {
+            validateInput('restingBP', 'restingBP-error', 94, 200);
+        });
+
+        document.getElementById('maxheartrate').addEventListener('input', function() {
+            validateInput('maxheartrate', 'maxheartrate-error', 71, 202);
+        });
+
+        document.getElementById('oldpeak').addEventListener('input', function() {
+            validateInput('oldpeak', 'oldpeak-error', 0, 6.2);
+        });
+
+
+
+    </script>
+
+</body>
+
+</html>
